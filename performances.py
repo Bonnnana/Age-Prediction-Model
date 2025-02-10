@@ -62,7 +62,6 @@ def evaluate_by_age_groups(y_test, y_pred):
 
 
 def evaluate_by_ethnicity(y_test, y_pred, image_paths):
-
     ethnicity_groups = {
         "0": "Белци",
         "1": "Црнци",
@@ -74,7 +73,7 @@ def evaluate_by_ethnicity(y_test, y_pred, image_paths):
     mae_by_group = defaultdict(list)
     count_by_group = defaultdict(int)
 
-    # extracting ethnicity from image format
+    # Extracting ethnicity from image format
     for true_age, pred_age, path in zip(y_test, y_pred, image_paths):
         ethnicity = path.split("_")[1]
         if ethnicity in ethnicity_groups:
@@ -84,9 +83,12 @@ def evaluate_by_ethnicity(y_test, y_pred, image_paths):
     mae_results = {group: np.mean(errors) if errors else 0 for group, errors in mae_by_group.items()}
 
     for group in ethnicity_groups.values():
-        num_samples = count_by_group[group]
-        mae = mae_results[group]
-        print(f"MAE за етничка група {group}: {mae:.2f} (Број на слики: {num_samples})")
+        if group in mae_results:  # Проверете дали групата постои во mae_results
+            num_samples = count_by_group[group]
+            mae = mae_results[group]
+            print(f"MAE за етничка група {group}: {mae:.2f} (Број на слики: {num_samples})")
+        else:
+            print(f"Нема податоци за етничка група {group}.")
 
     plt.figure(figsize=(10, 5))
     plt.bar(mae_results.keys(), mae_results.values(), color='lightgreen')
@@ -95,7 +97,6 @@ def evaluate_by_ethnicity(y_test, y_pred, image_paths):
     plt.title("Средна апсолутна грешка (MAE) по етнички групи")
     plt.xticks(rotation=45)
     plt.show()
-
 
 if __name__ == "__main__":
     model_path = "vgg16_age_recognition_final_256_128_4_20.h5"

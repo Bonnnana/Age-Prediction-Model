@@ -98,7 +98,7 @@ def evaluate_by_ethnicity(y_test, y_pred, image_paths):
 
 
 if __name__ == "__main__":
-    model_path = "vgg16_age_recognition_finetuned_256_128_6_20.h5"
+    model_path = "vgg16_age_recognition_final_256_128_4_20.h5"
     dataset_path = "UTKFace"
 
     image_paths, ages = load_dataset(dataset_path)

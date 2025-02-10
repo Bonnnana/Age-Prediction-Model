@@ -109,7 +109,8 @@ if __name__ == "__main__":
     test_dataset = preprocess_dataset(X_test_paths, y_test, batch_size=32)
 
     model = load_model(model_path)
-    predictions = model.predict(test_dataset.squeeze())
+    predictions = model.predict(test_dataset)
+    predictions = np.squeeze(predictions)
 
     evaluate_metrics(y_test, predictions)
     evaluate_by_age_groups(y_test, predictions)

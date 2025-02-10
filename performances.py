@@ -47,13 +47,15 @@ def evaluate_by_age_groups(y_test, y_pred):
 
     mae_results = {group: np.mean(errors) if errors else 0 for group, errors in mae_by_group.items()}
 
-    for group in age_groups.keys():
-        num_samples = count_by_group[group]
-        mae = mae_results[group]
-        print(f"MAE за група {group}: {mae:.2f} (Број на слики: {num_samples})")
+    sorted_groups = sorted(age_groups.keys(), key=lambda x: int(x.split('-')[0] if '-' in x else int(x[:-1])))
+    sorted_mae = [mae_results[group] for group in sorted_groups]
+    sorted_counts = [count_by_group[group] for group in sorted_groups]
+
+    for group, mae, count in zip(sorted_groups, sorted_mae, sorted_counts):
+        print(f"MAE за група {group}: {mae:.2f} (Број на слики: {count})")
 
     plt.figure(figsize=(10, 5))
-    plt.bar(mae_results.keys(), mae_results.values(), color='skyblue')
+    plt.bar(sorted_groups, sorted_mae, color='skyblue')
     plt.xlabel("Возрасна група")
     plt.ylabel("MAE")
     plt.title("Средна апсолутна грешка (MAE) по возрасни групи")
@@ -91,12 +93,13 @@ def evaluate_by_ethnicity(y_test, y_pred, image_paths):
             print(f"Нема податоци за етничка група {group}.")
 
     plt.figure(figsize=(10, 5))
-    plt.bar(mae_results.keys(), mae_results.values(), color='lightgreen')
+    plt.bar(mae_results.keys(), mae_results.values(), width=0.4, color='lightgreen')
     plt.xlabel("Етничка група")
     plt.ylabel("MAE")
     plt.title("Средна апсолутна грешка (MAE) по етнички групи")
     plt.xticks(rotation=45)
     plt.show()
+
 
 if __name__ == "__main__":
     model_path = "vgg16_age_recognition_final_256_128_4_20.h5"
@@ -116,6 +119,3 @@ if __name__ == "__main__":
     evaluate_metrics(y_test, predictions)
     evaluate_by_age_groups(y_test, predictions)
     evaluate_by_ethnicity(y_test, predictions, X_test_paths)
-
-
-

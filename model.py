@@ -40,15 +40,15 @@ def preprocess_dataset(image_paths, labels, batch_size=32):
 def plot_statistics(history, num_epochs):
     plt.figure(figsize=(12, 8))
 
-    plt.plot(history.history['val_mae'], label=f'{num_epochs} epochs (Val MAE)')
     plt.plot(history.history['mae'], label=f'{num_epochs} epochs (Train MAE)')
+    plt.plot(history.history['val_mae'], label=f'{num_epochs} epochs (Val MAE)')
 
-    plt.title('Model Performance with Different Epochs')
+    plt.title('Model Performance')
     plt.xlabel('Epochs')
     plt.ylabel('Mean Absolute Error')
     plt.legend()
 
-    plt.savefig("model_performance_plot.png")
+    plt.savefig("model_performance.png")
     plt.show()
 
 
@@ -82,8 +82,6 @@ if __name__ == '__main__':
 
     # Model
     x = Flatten()(base_model.output)
-    x = Dense(512, activation='relu')(x)
-    x = Dropout(0.5)(x)
     x = Dense(256, activation='relu')(x)
     x = Dropout(0.5)(x)
     x = Dense(128, activation='relu')(x)
@@ -93,7 +91,7 @@ if __name__ == '__main__':
     model = Model(inputs=base_model.input, outputs=output)
 
     model.compile(optimizer=Adam(learning_rate=1e-5), loss="mean_squared_error", metrics=["mae"])
-    num_epochs = 40
+    num_epochs = 20
 
     history = model.fit(
         train_dataset,
@@ -107,4 +105,4 @@ if __name__ == '__main__':
     print(f"Test Loss: {loss}, Mean Absolute Error: {mae}")
 
     # Save the model
-    model.save("vgg16_age_recognition_finetuned.h5")
+    model.save("vgg16_age_recognition_final_256_128_4_20.h5")

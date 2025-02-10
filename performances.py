@@ -60,6 +60,7 @@ def evaluate_by_age_groups(y_test, y_pred):
     plt.ylabel("MAE")
     plt.title("Средна апсолутна грешка (MAE) по возрасни групи")
     plt.xticks(rotation=45)
+    plt.savefig("evaluation_by_age_group.png")
     plt.show()
 
 
@@ -98,6 +99,7 @@ def evaluate_by_ethnicity(y_test, y_pred, image_paths):
     plt.ylabel("MAE")
     plt.title("Средна апсолутна грешка (MAE) по етнички групи")
     plt.xticks(rotation=45)
+    plt.savefig("evaluation_by_ethnicity.png")
     plt.show()
 
 

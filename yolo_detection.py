@@ -5,6 +5,7 @@ import numpy as np
 
 model_yolo = YOLO('yolov8n-face.pt')
 model_age = tf.keras.models.load_model('vgg16_age_recognition_final_256_128_4_20.h5')
+LIGHT_BLUE = (255, 191, 0)
 
 age_predictions = {}
 
@@ -60,8 +61,8 @@ def detect_faces_and_predict_age():
 
                         age_predictions[len(age_predictions)] = ((x1, y1, x2, y2), age)
 
-                    cv2.rectangle(frame, (x1, y1), (x2, y2), (150, 0, 150), 2)
-                    cv2.putText(frame, f'Age: {age}', (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 255, 255), 2)
+                    cv2.rectangle(frame, (x1, y1), (x2, y2), LIGHT_BLUE, 2)
+                    cv2.putText(frame, f'Age: {age}', (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, LIGHT_BLUE, 2)
 
         cv2.imshow('YOLO Face Detection and Age Prediction', frame)
 

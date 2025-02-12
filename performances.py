@@ -86,7 +86,7 @@ def evaluate_by_ethnicity(y_test, y_pred, image_paths):
     mae_results = {group: np.mean(errors) if errors else 0 for group, errors in mae_by_group.items()}
 
     for group in ethnicity_groups.values():
-        if group in mae_results:  # Проверете дали групата постои во mae_results
+        if group in mae_results:
             num_samples = count_by_group[group]
             mae = mae_results[group]
             print(f"MAE за етничка група {group}: {mae:.2f} (Број на слики: {num_samples})")
